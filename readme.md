@@ -1,8 +1,6 @@
 This Matlab package contains the source code to reproduce the figure of the article
 
-  "Iterative Bregman Projections for Regularized Transportation Problems"
-  Jean-David Benamou, Guillaume Carlier, Marco Cuturi, Luca Nenna, Gabriel Peyré
-  Preprint, 2014.
+J-D. Benamou, G. Carlier, M. Cuturi, L. Nenna, G. Peyré. [Iterative Bregman Projections for Regularized Transportation Problems](https://hal.archives-ouvertes.fr/hal-01096124). SIAM Journal on Scientific Computing, 37(2), pp. A1111–A1138, 2015.
 
 ![Example of Wasserstein barycenters](img/barycenters.png)
 
