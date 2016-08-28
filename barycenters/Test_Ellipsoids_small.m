@@ -1,3 +1,5 @@
+addpath('toolbox/');
+
 rand('seed',0);
 %close all;
 USINGGPU=false;
