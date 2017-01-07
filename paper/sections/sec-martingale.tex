@@ -1,0 +1,87 @@
+% !TEX root = ../KL-Projections.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Martingale Transport}
+\label{sec-martingale}
+
+
+We suppose given two vectors $x, y \in (\RR^{+,*})^N$ indicating the support of discrete measures $\mu=\sum_i p_i \de_{x_i}$ and $\nu = \sum_i q_i \de_{y_i}$, and that $\Cc_{x,y} \cap \Pp(p,q) \neq \emptyset$ where
+\eq{
+	\Cc_{x,y} = \enscond{ \pi \in (\RR^+)^{N \times N} }{ \pi y = p \cdot x }
+}
+where $p \cdot x = (p_i x_i)_i$. This constraint expresses that $\pi$ is the law of a martingale, i.e. it is the law of a random pair $(X_1,X_2)$  which is a martingale.
+
+The martingale transportation problem reads
+\eql{\label{eq-martingale-prbm}
+	\min_\pi \enscond{ \dotp{C}{\pi} }{ \pi \in \Pi(p,q) \cap \Cc_{x,y} }.
+}
+
+Introducing an auxiliary variable $\phi$ with the constraint $\phi=\pi \diag(y)$, we consider the following regularized formulation
+\eql{\label{eq-martingale-prbm-regul}
+	\min_{\pi,\phi}  
+		\dotp{C}{\pi} + \dotp{C \diag(y)^{-1}}{\phi} - \ga E(\pi) - \ga E(\phi) 
+	\qstq
+	\choice{
+		\pi \in \Pi(p,q), \\
+		\phi \ones = p \cdot x, \\ 
+		\phi=\pi \diag(y).
+	}
+} 
+One easily show that the unique solution of~\eqref{eq-martingale-prbm-regul} converges to the solution of~\eqref{eq-martingale-prbm} with maximum entropy [TODO] when $\ga \rightarrow 0$.
+
+The problem~\eqref{eq-martingale-prbm-regul} corresponds to the computation of a KL projection over the pair of variable $(\pi,\phi)$ since
+\eq{
+	\min_{\pi,\phi}  \enscond{ \KLdiv{\pi}{\bar\pi} + \KLdiv{\phi}{\bar\phi} }{
+		(\pi,\phi) \in \Cc_1 \cap \Cc_2\cap \Cc_3
+	}
+}
+where we have defined
+\eq{
+	\foralls (i,j), \quad
+	\bar\pi_{i,j} = e^{-C_{i,j}/\ga}
+	\qandq
+	\bar\phi_{i,j} = e^{-C_{i,j} y_j^{-1}/\ga},
+}
+and where the constraint sets are
+\begin{align*}
+	\Cc_1 &= \enscond{ (\pi,\phi) }{ \pi \ones = p \qandq \phi \ones = p \cdot x }, \\
+	\Cc_2 &= \enscond{ (\pi,\phi) }{ \transp{\pi} \ones = q \qandq \phi \ones = p \cdot x }, \\
+	\Cc_3 &= \enscond{ (\pi,\phi) }{ \phi=\pi \diag(y) }
+\end{align*}
+
+The KL projection on $\Cc_1$ and $\Cc_2$ are easily computed by using [TODO].
+
+The KL projection on $\Cc_3$ is computed as detailed in the following proposition.
+
+\begin{prop}
+	The projection $(\pi,\phi) = \KLproj_{\Cc_3}(\bar\pi,\bar\phi)$ satisfies
+	$\phi_{i,j} = \pi_{i,j}y_j$ and
+	\eq{
+		\foralls (i,j), \quad 
+		\pi_{i,j} = \exp\pa{
+			\frac{
+				y_j \log(\bar\phi_{i,j}/y_j) + \log(\bar\pi_{i,j})
+			}{
+				y_j + 1
+			}
+		}.
+	}
+\end{prop} 
+\begin{proof}
+	The projection is computed independently for each index $(i,j)$, and using the constraint $\phi_{i,j} = \pi_{i,j}y_j$, it corresponds to the resolution of
+	\eq{
+		\min_{\pi_{i,j}}
+			E(\pi_{i,j}) = 
+			\pi_{i,j}y_j \log\pa{ \frac{\pi_{i,j}y_j}{\bar\phi_{i,j}} } + 
+			\pi_{i,j} \log\pa{ \frac{\pi_{i,j}}{\bar\pi_{i,j}} }.	
+	}	
+	Writing down the first order condition $E'(\pi_{i,j})=0$ and solving this equation leads to the announced expression.
+\end{proof}
+
+
+Test case (taken from Touzi-Labordere p.17), the cost is of the form $c(x,y)=(\ln(y/x))^2$ and the maginals are lognormal i.e. $p$ and $q$ are the law of respectively $e^X$ and $e^Y$ with $X$ following $N(-\sigma_0^2/2, \sigma_0^2)$ and $Y$ following $N(-\sigma_1^2/2, \sigma_1^2)$ with $\sigma_0<\sigma_1$ (Touzi and Labordere take $\sigma_0^2=.04$ and $\sigma_1^2=.32$). Note that if $p$ is the law of $e^X$ with $X$ following $N(m, \sigma^2)$ its has a density on $\RR_+$ explicitely given by
+\[p(t)=\frac{1}{ t \sigma \sqrt{2\pi}} \exp(-\frac{(\ln(t)-m)^2}{2\sigma^2}).  \]
+
+
+
+

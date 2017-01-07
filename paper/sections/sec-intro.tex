@@ -1,0 +1,142 @@
+% !TEX root = ../KL-Projections.tex
+
+\section{Introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Previous Works}
+\label{sec-pw}
+The theory of Optimal Transport (OT)~\cite{Villani03} defines a natural and useful geometry to compare measures supported on metric probability spaces. Its modern formulation as a linear program is due to Kantorovich~\cite{Kantorovich42}. 
+%
+OT has recently found a flurry of applications in various fields such as computer vision~\cite{RubTomGui00}, economy~\cite{MR2564439}~\cite{carlierekelandmatching}, computer graphics~\cite{Bonneel-displacement}, image processing~\cite{2014-xia-siims}, astrophysics~\cite{FrischNaturee}. 
+
+%%
+\paragraph{Computational optimal transport}
+
+A major bottleneck that prevents the wide\-spread of OT and its various generalizations is the lack of fast (possibly approximate) algorithms. 
+%
+Discrete optimal transport (\emph{i.e.} computing transport between sums of Diracs) reduces to a finite dimensional linear program. When the mass of each Dirac is constant and the two measures have the same number $N$ of Dirac masses, this problem reduces to an optimal matching problem, for which dedicated discrete optimization methods exist~\cite{Burkard09}, that roughly have $O(N^3)$ complexity, which is still computationally too demanding for most applications. 
+% 
+Another line of research, initiated by~\cite{Benamou2000} relies on dynamic formulations, which corresponds to computing the transport as a geodesic, and can be re-casted as a convex optimization problem. We refer to~\cite{FPapPeyOud13} for an overview of several proximal optimization methods to tackle this problem. This requires adding an extra dimension (time variable along the geodesic) and is thus also computationally expensive. 
+% 
+Semi-discrete optimal transport, i.e. optimal transport from a density to a  weighted sum of dirac masses is a classical strategy for a generalised version of the Monge-Amp\`ere equation, see \cite{Merigot:2011js} for recent improvements of this approach. Finally and for the quadratic ground cost optimal transport, a direct Newton solver approach to the non-linear Monge Amp\`ere equation can be used to compute density to density optimal transport. This holds under some regularity assumption on the densities and domain and hence on the transport map itself, see  \cite{Loeper:2005fn} and \cite{Benamou:2014jw} for instance.
+
+%%
+\paragraph{Entropic regularization}
+
+A different approach consists in computing  a regularized version of the OT problem. An interesting choice consists in promoting, among joint couplings that have a low cost, those that have high entropy. This idea can be traced back to Schrodinger~\cite{Shrodinger31} and related to the the so-called iterative proportional fitting procedure (IPFP)~\cite{DemingStephanIPFP} which has found numerous applications in the probability and statistics literature under the denomination of maximum entropy models. We refer to~\cite{Ruschendorf95,RuschendorfThomsen,LeonardShrodinger} for modern perspectives on this link. 
+%
+
+Such a regularization is well motivated in the economics literature, where OT theory can be useful to predict flows of commodities or actors in a market. In that context, regularizing the OT problem can ensure the smoothness of such flows~\cite{wilson1969use,erlander1990gravity} or facilitate inference in matching models~\cite{Galichon-Entropic}. 
+%
+
+These attractive modeling properties aside, our interest for the entropic regularization of OT comes in this paper from a different aspect, which is instead computational. Entropy regularized OT has several favorable computational properties which were, to our knowledge, first highlighted by Cuturi~\citep{CuturiSinkhorn} and can be summarized as follows. The underlying idea behind an entropic regularization of OT is that it forces the solution to have a spread support, thus deviating from the fact that optimal couplings are sparse (\emph{i.e.} supported on a graph of a transport plan solving Monge's problem). A first impact of this regularization is that this non-sparsity of the solution helps to stabilize the computation. This can be related to the fact that entropic penalization defines a strongly convex program (as opposed to the initial OT problem) with a unique solution. Another (even more important) advantage of this entropic regularized OT problem is that its solution is a diagonal scaling of $e^{-C}$, the element-wise exponential matrix of $-C$, where $C$ is the ground cost defining the transport (see Section~\ref{sec-entropic-regul} for more details). The solution to this diagonal scaling problem can be found efficiently through the IPFP iterative scheme~\cite{DemingStephanIPFP}, alternatively known as the RAS algorithm~\cite{bacharach1965estimating} or Sinkhorn's algorithm~\cite{Sinkhorn64,SinkhornKnopp67,Sinkhorn67}. The convergence rate of Sinkhorn's algorithm is linear~\cite{FranklinLorentz}; it can be implemented in a few lines of code that only require matrix vector products and elementary operations, which can all be easily parallelized on modern hardware.
+
+%%
+Entropic regularization of linear programs also shares some connection with interior point methods. These approaches make use of a $\log$-barrier function, which should be self-concordant to ensure a polynomial complexity for a given accuracy~\cite{NesterovNemirovskyBook}. Such a property does not hold for the entropic barrier, so it is not a competitive approach when it comes to approximating solutions of the original linear program by lowering the amount of regularization. As we advocate in this present paper, entropic regularization has however several other computational advantages (in particular because of its close connection with Kullback-Leibler projections), which makes it attractive when a slight amount of smoothing is acceptable in the computed approximation. 
+
+%%
+\paragraph{Optimization using the Kullback-Leibler Divergence}
+
+When considering optimization over the simplex or the cone of positive vectors, it makes sense to replace the usual Euclidean metric by a divergence that quantifies with more relevance the difference between two vectors. Of particular interest for our work is the Kullback-Leibler (KL) divergence, since it is intimately related to entropic regularization. The simplest algorithmic block that can exploit such a divergence is the iterative projection on affine subsets of such cones under the KL divergence, which was introduced by Bregman~\cite{bregman1967relaxation}. Computing the projection on the intersection of generic convex sets requires to replace iterative projections by more complicated algorithms, such as for instance Dykstra's method~\cite{Dykstra83}. This algorithm is extended to Bregman divergences (such as KL) in~\cite{CensorReich-Dykstra} and a proof of convergence is given in~\cite{bauschke-lewis}. 
+% 
+For references in probability and statistics that also address the case of continuous distributions see~\cite{csis,dyk, Ruschendorf95,bhatt2006}. 
+%
+Note that several other proximal algorithms have been extended to this setting~\cite{BauschkeCombettes-Dykstra}.
+
+%%
+\paragraph{OT Barycenter}
+
+The OT metric has been extended in many ways. A natural extension is to consider the barycenter between several distributions (the case of only 2 measures defining the usual transport). Such a barycenter is defined as the solution of a convex variational problem (a weighted sum of OT distances) over the space of measures, which is studied in details in~\cite{Carlier_wasserstein_barycenter}. OT barycenters find applications for instance in statistics to define a mean empirical estimator from a family of observed histograms~\cite{BigotBarycenter}, or in machine learning~\cite{CuturiBarycenter} to provide an extended definition of $k$-means clustering and compute average histograms-of-features under the OT metric.
+
+Solving this variational problem is challenging. Two numerical approaches have recently addressed this problem:~\cite{CuturiBarycenter} where a gradient descent on an entropic smoothing of OT distances is used and~\cite{Carlier-NumericsBarycenters} which is based on a dual formulation and tools from non-smooth optimization and computational geometry. The OT barycenter problem can be extended to more complicated variational problems involving the minimization of sums of OT distances, such as the Wasserstein propagation framework discussed in~\cite{Solomon-ICML}. The entropic regularization approaches we advocate in this paper can be extended to address that problem.
+
+
+%%
+\paragraph{Multi-marginal transport}
+
+The OT barycenter problem, as introduced in~\cite{Carlier_wasserstein_barycenter}, is essentially equivalent to a multi-marginal optimal transport with quadratic cost as studied in~\cite{gansw}. Multimarginal reformulations are  usually not tractable, since they involve an optimization problem whose size grows exponentially with respect to the number of marginals.  Fortunately, the special structure of the OT barycenter problem leads to reformulations that are linear in the number of marginals,  see~\cite{Carlier-NumericsBarycenters} and Section~\ref{sec-barycenters} below. There are however applications where the problem under study intrinsically has a multi-marginal structure, that cannot be factorized as barycenter computations. 
+
+Multi-marginal Optimal Transport,~\cite{MR2875651,Pass2}, is a natural extension of Optimal Transport with many 
+potential fields of applications~: Economics~\cite{MR2564439}~\cite{carlierekelandmatching}, Density Functionnal Theory in Quantum Chemistry ~\cite{CPA:CPA21437}. The first important instance of multi-marginal transport was probably Brenier's generalised solutions of the Euler equations for incompressible fluids~\cite{BrenierEulerAMS,BrenierEulerARMA, BrenierEulerCPAM} which are clearly described in his review paper~\cite{BrenierGeneralized}.
+%
+Note that entropic regularization of the multimarginal transport problem leads to a problem of multi-dimensional matrix scaling~\cite{FranklinLorentz,BapatMultidim,RaghavanMultidim}.
+
+
+%%
+%\paragraph{Martingale Transport}
+% TODO~\cite{GalichonMartingale,DavisArbitrage,TanTouzi}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Contributions}
+
+In this paper, we present a unified framework to numerically solve entropic approximations of several generalized optimal transport problems. This framework corresponds to defining appropriate entropic penalizations of the initial linear programs. The key idea is then to interpret the corresponding problems as projections of some input Gibbs density on an intersection of convex sets according to the Kullback-Leibler divergence. This problem can then be solved efficiently using either Bregman iterative projection (for intersection of affine spaces) or a more general Dykstra-like algorithm---these being well-known first order non-smooth optimization schemes. % typographic rule: no space after and before dashes
+We investigate in details the applications of these ideas to several generalized OT problems: barycenter (Section~\ref{sec-barycenters}), tomographic reconstruction (Section~\ref{sec-tomography}), multi-marginal transport (Section~\ref{sec-multi-marginal}), partial transport (Section~\ref{sec-partial-ot}) and capacity constrained transport (Section~\ref{sec-capacity-ot}).
+%
+The code implementing the methods presented in this article can be found online\footnote{\url{https://github.com/gpeyre/2014-SISC-BregmanOT}}.
+
+% For instance, a spectacular achievement of this framework is a state of the art solver for OT barycenter problem (see Section~\ref{sec-barycenters}). This barycenter solver simply iterates between two simple row and columns normalization steps, and we believe it is the correct and canonical way to extend the initial IPFP algorithm to the setting of barycenters. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Computational Speed}
+
+The goal of this paper is to present a new class of efficient methods to provide approximate solutions to linear program generalizing OT. It is however important to realize that these methods become numerically unstable when the regularization parameter (denoted $\ga$ in the following) is small for two reasons: \emph{(i)} since some of the quantities manipulated in the proposed algorithms have an order of $e^{-1/\ga}$ (in particular Gibbs distributions denoted $\xi$ in the following) they become smaller than machine precision whenever the regularization $\ga$ is small; \emph{(ii)} more importantly, even if the first issue is taken care of by carrying out computations in the log domain, the convergence speed of iterative projection methods degrades significantly as $\ga \rightarrow 0$. We observe therefore that these methods are competitive in a range where the regularization term $\ga$ cannot be too small, and for which computed solutions exhibit a small amount of smoothing, see for instance Figure~\ref{fig-ot-sinkhorn} for a visual illustration of this phenomenon. 
+%
+It is thus not the purpose of this article to compare these new methods with more traditional ones (such as interior points or simplex), because they do not target the same problem.
+%
+Let us however single out the work of~\cite{CuturiBarycenter}, that solves the regularized barycenter problem described in Section~\ref{sec-barycenters} using a gradient descent scheme. We have found in all our experiments, including that displayed in Figure~\ref{fig-barycenter-gaps}, that our iterative Bregman projection scheme to minimize the very same problem converges orders-of-magnitude faster than a gradient descent. Additionally, because that scheme is parameter-free, our method is far easier to use and should become the method of choice to carry out such computations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Notations}
+
+We denote the simplex in $\RR^N$
+\eq{
+	\Si_{N} \eqdef \enscond{ p \in \RR_+^N }{ \sum_i p_i = 1 }.
+}
+The polytope of couplings between $(p,q) \in \Si_N^2$ is defined as
+\eq{
+	\Pi(p,q) \eqdef \enscond{\pi \in \RR_+^{N \times N}}{ \pi \ones = p, \transp{\pi} \ones = q },
+}
+where $\transp{\pi}$ is the transpose of $\pi$ and $\ones \eqdef \transp{(1,\ldots,1)} \in \RR^N$.
+
+For a set $\Cc$, we denote $\iota_\Cc$ its indicator, that is
+\eq{
+	\foralls x, \quad \iota_{\Cc}(x) = \choice{
+		0 \qifq x \in \Cc, \\
+		+\infty \quad\text{otherwise.}
+	}
+}
+
+
+For $\pi \in \RR^{N \times N}$ for some $N > 0$, we define its entropy as
+\eq{
+	E(\pi) \eqdef -\sum_{i,j=1}^N \pi_{i,j} ( \log(\pi_{i,j}) - 1) - \iota_{\RR^+}(\pi_{i,j}), 
+}
+which is a concave function, where we used the convention $0\log(0)=0$ and set $E(\pi)=-\infty$ if one of the $\pi_{i,j}$ is not in $\RR_+$.
+
+The Kullback-Leibler divergence between $\pi \in \RR_+^{N \times N}$ and $\xi \in \RR_{++}^{N \times N}$ where $\RR_{++}$ is the set of strictly positive real numbers (i.e. $\xi_{i,j}>0$ for all $(i,j)$) is 
+\eq{
+	\KLdiv{\pi}{\xi} \eqdef \sum_{i,j=1}^N \pi_{i,j}  \log\pa{ \frac{\pi_{i,j}}{\xi_{i,j}} } - \pi_{i,j} + \xi_{i,j}.
+}
+With a slight abuse of notation, we extend these definitions for higher $d$-dimensional tensor arrays by replacing the sum over indices $(i,j)$ by sums over higher dimension indices. 
+
+%
+Given a convex set $\Cc \subset \RR^{N\times N}$, the projection according to the Kullback-Leibler divergence is defined as
+\eq{
+	\KLproj_\Cc(\xi) \eqdef \uargmin{ \pi \in \Cc } \KLdiv{\pi}{\xi}.
+}
+
+For vectors $(a,b) \in \RR^N \times \RR^N$, we denote entry-wise multiplication and division
+\eql{\label{eq-entrywise}
+	a \odot b \eqdef (a_i b_i)_i \in \RR^N
+	\qandq
+	\frac{a}{b} \eqdef (a_i/b_i)_i \in \RR^N.
+}

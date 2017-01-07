@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2016)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: KL-Projections.aux
+The style file: siam.bst
+Database file #1: refs.bib
+You've used 62 entries,
+            2030 wiz_defined-function locations,
+            916 strings with 13462 characters,
+and the built_in function-call counts, 21939 in all, are:
+= -- 2263
+> -- 707
+< -- 0
++ -- 299
+- -- 221
+* -- 1591
+:= -- 3216
+add.period$ -- 62
+call.type$ -- 62
+change.case$ -- 297
+chr.to.int$ -- 0
+cite$ -- 62
+duplicate$ -- 1079
+empty$ -- 1679
+format.name$ -- 221
+if$ -- 4811
+int.to.chr$ -- 0
+int.to.str$ -- 62
+missing$ -- 65
+newline$ -- 189
+num.names$ -- 118
+pop$ -- 233
+preamble$ -- 1
+purify$ -- 238
+quote$ -- 0
+skip$ -- 1002
+stack$ -- 0
+substring$ -- 1854
+swap$ -- 502
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 238
+warning$ -- 0
+while$ -- 254
+width$ -- 64
+write$ -- 549

@@ -1,0 +1,292 @@
+\begin{thebibliography}{10}
+
+\bibitem{AbrahamRadon}
+{\sc I.~Abraham, R.~Abraham, M.~Bergounioux, and G.~Carlier}, {\em Tomographic
+  reconstruction from a few views: a multi-marginal optimal transport
+  approach}, Preprint Hal-01065981,  (2014).
+
+\bibitem{Carlier_wasserstein_barycenter}
+{\sc M.~Agueh and G.~Carlier}, {\em Barycenters in the {W}asserstein space},
+  SIAM J. on Mathematical Analysis, 43 (2011), pp.~904--924.
+
+\bibitem{MR2563635}
+{\sc Luigi Ambrosio and Alessio Figalli}, {\em Geodesics in the space of
+  measure-preserving maps and plans}, Arch. Ration. Mech. Anal., 194 (2009),
+  pp.~421--462.
+
+\bibitem{bacharach1965estimating}
+{\sc Michael Bacharach}, {\em Estimating nonnegative matrices from marginal
+  data}, International Economic Review, 6 (1965), pp.~294--310.
+
+\bibitem{BapatMultidim}
+{\sc R.~Bapat}, {\em $d_1ad_2$ theorems for multidimensional matrices}, Linear
+  Algebra and its Applications, 48 (1982), pp.~437--442.
+
+\bibitem{passkitagawa}
+{\sc B.~Bass and J.~Kitagawa}, {\em The multi-marginal optimal transport
+  problem}, preprint,  (2014).
+
+\bibitem{BauschkeCombettes-Dykstra}
+{\sc H.~H. Bauschke and P.~L. Combettes}, {\em A {Dykstra}-like algorithm for
+  two monotone operators}, Pacific Journal of Optimization, 4 (2008),
+  pp.~383--391.
+
+\bibitem{bauschke-lewis}
+{\sc H.~H. Bauschke and A.~S. Lewis}, {\em Dykstra's algorithm with {B}regman
+  projections: a convergence proof}, Optimization, 48 (2000), pp.~409--427.
+
+\bibitem{Benamou2000}
+{\sc J.-D. Benamou and Y.~Brenier}, {\em A computational fluid mechanics
+  solution of the {M}onge-{K}antorovich mass transfer problem}, Numerische
+  Mathematik, 84 (2000), pp.~375--393.
+
+\bibitem{Benamou:2014jw}
+{\sc J-D. Benamou, B.~D. Froese, and A.~M. Oberman}, {\em Numerical solution of
+  the optimal transportation problem using the {Monge--Amp{\`e}re} equation},
+  Journal of Computational Physics, 260 (2014), pp.~107--126.
+
+\bibitem{bhatt2006}
+{\sc B.~Bhattacharya}, {\em An iterative procedure for general probability
+  measures to obtain {I}-projections onto intersections of convex sets}, Ann.
+  Statist., 34 (2006), pp.~878--902.
+
+\bibitem{BigotBarycenter}
+{\sc J.~Bigot and T.~Klein}, {\em Consistent estimation of a population
+  barycenter in the {W}asserstein space}, Preprint arXiv:1212.2562,  (2012).
+
+\bibitem{Bonneel-displacement}
+{\sc N.~Bonneel, M.~{van de Panne}, S.~Paris, and W.~Heidrich}, {\em
+  Displacement interpolation using {Lagrangian} mass transport}, ACM
+  Transactions on Graphics (SIGGRAPH ASIA'11), 30 (2011).
+
+\bibitem{bregman1967relaxation}
+{\sc L.~M. Bregman}, {\em The relaxation method of finding the common point of
+  convex sets and its application to the solution of problems in convex
+  programming}, USSR computational mathematics and mathematical physics, 7
+  (1967), pp.~200--217.
+
+\bibitem{BrenierEulerAMS}
+{\sc Y.~Brenier}, {\em The least action principle and the related concept of
+  generalized flows for incompressible perfect fluids}, J. of the AMS, 2
+  (1990), pp.~225--255.
+
+\bibitem{BrenierEulerARMA}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em The dual least
+  action problem for an ideal, incompressible fluid}, Archive for Rational
+  Mechanics and Analysis, 122 (1993), pp.~323--351.
+
+\bibitem{BrenierEulerCPAM}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em Minimal geodesics on
+  groups of volume-preserving maps and generalized solutions of the {E}uler
+  equations}, Communications on Pure and Applied Mathematics, 52 (1999),
+  pp.~411--452.
+
+\bibitem{BrenierGeneralized}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em Generalized
+  solutions and hydrostatic approximation of the {E}uler equations}, Phys. D,
+  237 (2008), pp.~1982--1988.
+
+\bibitem{Burkard09}
+{\sc R.~Burkard, M.~Dell'Amico, and S.~Martello}, {\em Assignment Problems},
+  Society for Industrial and Applied Mathematics, Philadelphia, PA, USA, 2009.
+
+\bibitem{MR2630054}
+{\sc L.~A. Caffarelli and R.~J. McCann}, {\em Free boundaries in optimal
+  transport and {M}onge-{A}mp\`ere obstacle problems}, Ann. of Math. (2), 171
+  (2010), pp.~673--730.
+
+\bibitem{carlierekelandmatching}
+{\sc G.~Carlier and I.~Ekeland}, {\em Matching for teams}, Econom. Theory, 42
+  (2010), pp.~397--418.
+
+\bibitem{Carlier-NumericsBarycenters}
+{\sc G.~Carlier, A.~Oberman, and E.~Oudet}, {\em Numerical methods for matching
+  for teams and {Wasserstein} barycenters}, preprint, Ceremade, 2014.
+
+\bibitem{CensorReich-Dykstra}
+{\sc Y.~Censor and S.~Reich}, {\em The {Dykstra} algorithm with {Bregman}
+  projections}, Communications in Applied Analysis, 2 (1998), pp.~407--419.
+
+\bibitem{MR2564439}
+{\sc P-A. Chiappori, R.~J. McCann, and L.~P. Nesheim}, {\em Hedonic price
+  equilibria, stable matching, and optimal transport: equivalence, topology,
+  and uniqueness}, Econom. Theory, 42 (2010), pp.~317--354.
+
+\bibitem{CominettiAsympt}
+{\sc R.~Cominetti and J.~San Martin}, {\em Asymptotic analysis of the
+  exponential penalty trajectory in linear programming}, Mathematical
+  Programming, 67 (1994), pp.~169--187.
+
+\bibitem{CPA:CPA21437}
+{\sc C.~Cotar, G.~Friesecke, and C.~Klzppelberg}, {\em Density functional
+  theory and optimal transportation with {C}oulomb cost}, Communications on
+  Pure and Applied Mathematics, 66 (2013), pp.~548--599.
+
+\bibitem{csis}
+{\sc I.~Csisz{\'a}r}, {\em {$I$}-divergence geometry of probability
+  distributions and minimization problems}, Ann. Probability, 3 (1975),
+  pp.~146--158.
+
+\bibitem{CuturiSinkhorn}
+{\sc M.~Cuturi}, {\em Sinkhorn distances: Lightspeed computation of optimal
+  transport}, in Advances in Neural Information Processing Systems (NIPS) 26,
+  2013, pp.~2292--2300.
+
+\bibitem{CuturiBarycenter}
+{\sc M.~Cuturi and A.~Doucet}, {\em Fast computation of {Wasserstein}
+  barycenters}, in Proceedings of the 31st International Conference on Machine
+  Learning (ICML), JMLR W\&CP, vol.~32, 2014.
+
+\bibitem{DemingStephanIPFP}
+{\sc W.~E. Deming and F.~F. Stephan}, {\em On a least squares adjustment of a
+  sampled frequency table when the expected marginal totals are known}, Annals
+  Mathematical Statistics, 11 (1940), pp.~427--444.
+
+\bibitem{Dykstra83}
+{\sc R.~L. Dykstra}, {\em An algorithm for restricted least squares
+  regression}, J. Amer. Stat., 78 (1983), pp.~839--842.
+
+\bibitem{dyk}
+{\sc R.~L. Dykstra}, {\em An iterative procedure for obtaining
+  {$I$}-projections onto the intersection of convex sets}, Ann. Probab., 13
+  (1985), pp.~975--984.
+
+\bibitem{erlander1990gravity}
+{\sc S.~Erlander and N.F. Stewart}, {\em {The gravity model in transportation
+  analysis: theory and extensions}}, Vsp, 1990.
+
+\bibitem{MR2592287}
+{\sc A.~Figalli}, {\em The optimal partial transport problem}, Arch. Ration.
+  Mech. Anal., 195 (2010), pp.~533--560.
+
+\bibitem{FranklinLorentz}
+{\sc J.~Franklin and J.~Lorentz}, {\em On the scaling of multidimensional
+  matrices}, Linear Algebra and its Applications, 114--115 (1989),
+  pp.~717--735.
+
+\bibitem{FrischNaturee}
+{\sc U.~Frisch, S.~Matarrese, R.~Mohayaee, and A.~Sobolevski}, {\em
+  {Monge-Ampere-Kantorovitch} {(MAK)} reconstruction of the early universe},
+  Nature, 417 (2002).
+
+\bibitem{Galichon-Entropic}
+{\sc A.~Galichon and B.~Salani\'e}, {\em Matching with trade-offs: Revealed
+  preferences over competing characteristics}, tech. report, Preprint
+  SSRN-1487307, 2009.
+
+\bibitem{gansw}
+{\sc W.~Gangbo and A.~{\'S}wi{\c{e}}ch}, {\em Optimal maps for the
+  multidimensional {M}onge-{K}antorovich problem}, Comm. Pure Appl. Math., 51
+  (1998), pp.~23--45.
+
+\bibitem{HermanTomography}
+{\sc G.~Herman}, {\em Image reconstruction from projections: the fundamentals
+  of computerized tomography}, Academic Press, 1980.
+
+\bibitem{km1}
+{\sc K.~Jonathan and R.~J. McCann}, {\em Optimal transportation with capacity
+  constraints}, Preprint arXiv:1201.6404,  (2012).
+
+\bibitem{km2}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em Insights into
+  capacity constrained optimal transport}, Proc. Natl. Acad. Sci. USA, 110
+  (2013), pp.~10064--10067.
+
+\bibitem{Kantorovich42}
+{\sc L.~Kantorovich}, {\em On the transfer of masses (in russian)}, Doklady
+  Akademii Nauk, 37 (1942), pp.~227--229.
+
+\bibitem{Klann11}
+{\sc E.~Klann}, {\em A {Mumford-Shah}-like method for limited data tomography
+  with an application to electron tomography}, SIAM J. Imaging Sciences, 4
+  (2011), pp.~1029--1048.
+
+\bibitem{LeonardShrodinger}
+{\sc C.~Leonard}, {\em A survey of the {Schrodinger} problem and some of its
+  connections with optimal transport}, Discrete Contin. Dyn. Syst. A, 34
+  (2014), pp.~1533--1574.
+
+\bibitem{Loeper:2005fn}
+{\sc G.~Loeper and F.~Rapetti}, {\em Numerical solution of the {Monge-Amp\`ere}
+  equation by a {Newton's} algorithm}, C. R. Acad. Sci. Paris, Ser. I, 340
+  (2005), pp.~319--324.
+
+\bibitem{Merigot:2011js}
+{\sc Q~Merigot}, {\em {A Multiscale Approach to Optimal Transport}}, Computer
+  Graphics Forum, 30 (2011), pp.~1583--1592.
+
+\bibitem{NesterovNemirovskyBook}
+{\sc Y.~E. Nesterov and A.~S. Nemirovsky}, {\em Interior Point Polynomial
+  Methods in Convex Programming~: Theory and Algorithms}, SIAM Publishing,
+  1993.
+
+\bibitem{FPapPeyOud13}
+{\sc N.~Papadakis, G.~Peyr{\'e}, and E.~Oudet}, {\em Optimal transport with
+  proximal splitting}, SIAM Journal on Imaging Sciences, 7 (2014),
+  pp.~212--238.
+
+\bibitem{Pass2}
+{\sc B.~Pass}, {\em Uniqueness and {Monge} solutions in the multimarginal
+  optimal transportation problem}, SIAM Journal on Mathematical Analysis, 43
+  (2011), pp.~2758--2775.
+
+\bibitem{MR2875651}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em On the local
+  structure of optimal measures in the multi-marginal optimal transportation
+  problem}, Calc. Var. Partial Differential Equations, 43 (2012), pp.~529--536.
+
+\bibitem{RaghavanMultidim}
+{\sc T.~E.~S. Raghavan}, {\em On pairs of multidimensional matrices}, Linear
+  Algebra and its Applications, 62 (1984), pp.~263--268.
+
+\bibitem{RubTomGui00}
+{\sc Y.~Rubner, C.~Tomasi, and L.J. Guibas}, {\em The earth mover's distance as
+  a metric for image retrieval}, IJCV: International Journal of Computer
+  Vision, 40 (2000).
+
+\bibitem{Ruschendorf95}
+{\sc L.~Ruschendorf}, {\em Convergence of the iterative proportional fitting
+  procedure}, The Annals of Statistics, 23 (1995), pp.~1160--1174.
+
+\bibitem{RuschendorfThomsen}
+{\sc L.~Ruschendorf and W.~Thomsen}, {\em Closedness of sum spaces and the
+  generalized {Schrodinger} problem}, Theory of Probability and its
+  Applications, 42 (1998), pp.~483--494.
+
+\bibitem{Shrodinger31}
+{\sc E.~Schrodinger}, {\em Uber die umkehrung der naturgesetze},
+  Sitzungsberichte Preuss. Akad. Wiss. Berlin. Phys. Math., 144 (1931),
+  pp.~144--153.
+
+\bibitem{Sinkhorn64}
+{\sc R.~Sinkhorn}, {\em A relationship between arbitrary positive matrices and
+  doubly stochastic matrices}, Ann. Math. Statist., 35 (1964), pp.~876--879.
+
+\bibitem{Sinkhorn67}
+\leavevmode\vrule height 2pt depth -1.6pt width 23pt, {\em Diagonal equivalence
+  to matrices with prescribed row and column sums}, Amer. Math. Monthly, 74
+  (1967), pp.~402--405.
+
+\bibitem{SinkhornKnopp67}
+{\sc R.~Sinkhorn and P~. Knopp}, {\em Concerning nonnegative matrices and
+  doubly stochastic matrices}, Pacific J. Math., 21 (1967), pp.~343--348.
+
+\bibitem{Solomon-ICML}
+{\sc J.~Solomon, R.M. Rustamov, L.~Guibas, and A.~Butscher}, {\em Wasserstein
+  propagation for semi-supervised learning}, in Proc. ICML 2014, 2014.
+
+\bibitem{Villani03}
+{\sc C.~Villani}, {\em Topics in Optimal Transportation}, Graduate Studies in
+  Mathematics Series, American Mathematical Society, 2003.
+
+\bibitem{wilson1969use}
+{\sc A.~G. Wilson}, {\em The use of entropy maximizing models, in the theory of
+  trip distribution, mode split and route split}, Journal of Transport
+  Economics and Policy,  (1969), pp.~108--126.
+
+\bibitem{2014-xia-siims}
+{\sc G-S. Xia, S.~Ferradans, G.~Peyr{\'e}, and J-F. Aujol}, {\em Synthesizing
+  and mixing stationary {Gaussian} texture models}, SIAM Journal on Imaging
+  Sciences, 7 (2014), pp.~476--508.
+
+\end{thebibliography}

@@ -1,0 +1,72 @@
+% !TEX root = ../KL-Projections.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Iterative Bregman Projections and Dykstra Algorithm}
+
+
+In this paper, we focus on regularized generalized OT problems that can be re-cast in the form
+\eql{\label{proj-inter}
+	\min_{\pi \in \Cc}  \KLdiv{\pi}{\xi}
+}
+where $\xi$ is a given point in $\RR_+^{N\times N}$, and $\Cc$ is an intersection of closed convex sets
+\eq{
+	\Cc = \bigcap_{\ell=1}^L \Cc_\ell
+}
+such that $\Cc$ has nonempty intersection with $\RR_+^{N\times N}$. 
+
+In the following, we extend the indexing of the sets by $L$-periodicity, so that they satisfy
+\eq{
+	\foralls n \in \NN, \quad \Cc_{n+L} = \Cc_{n}.
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Iterative Bregman Projections}
+\label{sec-iterative-bregman}
+
+In the special case where the convex sets $\Cc_\ell$ are  affine subspaces (note that nonnegativity constraints are already in the definition of the entropy), it is possible to solve~\eqref{proj-inter} by simply using iterative KL projections. Starting from $\pi^{(0)} = \xi$, one computes
+\eql{\label{eq-iter-bregmanproj}
+	\foralls n>0, \quad
+	\iter{\pi} \eqdef \KLproj_{\Cc_n}( \pi^{(n-1)} ). 
+}
+One can then show that $\iter{\pi}$ converges towards the unique solution of~\eqref{proj-inter},
+\eq{  
+	\iter{\pi} \to \KLproj_\Cc(\xi) \quad \mbox{as $n \to \infty$}.
+}
+see~\cite{bregman1967relaxation}. 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Dykstra's Algorithm}
+
+When the convex sets $\Cc_\ell$ are not affine subspaces, iterative Bregman projections do not converge in general to the KL projection on the intersection. In contrast, Dykstra's algorithm~\cite{Dykstra83}, extended to the KL setting, does converge to the projection, see~\cite{bauschke-lewis}.
+
+Dykstra's algorithm starts by initializing  
+\eq{
+	\pi^{(0)} \eqdef \xi
+	\qandq
+	q^{(0)}=q^{(-1)}= \dots =q^{(-L+1)} \eqdef \ones.
+}
+One then iteratively defines
+\eql{\label{eq-iter-dystra}
+	\iter{\pi} \eqdef  \KLproj_{\Cc_n}(\pi^{(n-1)} \odot q^{(n-L)}),
+	\qandq
+	\iter{q} \eqdef q^{(n-L)} \odot \frac{ \pi^{(n-1)} }{ \iter{\pi} }.
+}
+Recall here that $\odot$ and $\frac{\cdot}{\cdot}$ denotes entry-wise operations, see~\eqref{eq-entrywise}.
+
+ 
+Dykstra algorithm converges to the solution of~\eqref{proj-inter}
+\eq{  
+	\iter{\pi} \to \KLproj_\Cc(\xi) \quad \mbox{as $n\to \infty$},
+}
+see~\cite{bauschke-lewis}.
+
+
+% \input{sec-dikstra-algo-lifting}
+
+

@@ -1,0 +1,80 @@
+\documentclass[final]{siamltex}
+
+
+% Be sure to use PDF Latex
+\pdfoutput=1
+
+\usepackage{hyperref} %BUG if put after
+
+
+\usepackage[latin1]{inputenc}
+\usepackage{mystyle}
+\usepackage{dsfont} % amssymb,,amsmath,amsthm}
+\usepackage{url}
+\graphicspath{{./figures/}}
+
+
+
+\hypersetup{  
+   bookmarks=true,
+   backref=true,
+   pagebackref=false,
+   colorlinks=true,
+   linkcolor=blue,
+   citecolor=red,
+   urlcolor=blue,
+   pdftitle={Iterative Bregman Projections},
+   pdfauthor={J.D. Benamou et al.},
+   pdfsubject={Iterative Bregman Projections}
+}
+
+
+
+\title{Iterative Bregman Projections\\for Regularized Transportation Problems}
+
+\author{Jean-David Benamou\footnotemark[1] 
+		\and
+		Guillaume Carlier\footnotemark[2]	
+		\and~\\ 
+        Marco Cuturi\footnotemark[3] 
+        \and 
+        Luca Nenna\footnotemark[1]
+        \and 
+        Gabriel Peyr\'e\footnotemark[2]}
+        
+
+% \date{\today}
+
+\renewcommand{\pi}{\gamma}
+\renewcommand{\ga}{\epsilon}
+
+\begin{document}
+
+\maketitle
+
+% 
+\footnotetext[1]{INRIA, MOKAPLAN, Domaine de Voluceau Le Chesnay, FRANCE, \url{{jean-david.benamou,luca.nenna}@inria.fr} }
+\footnotetext[2]{CEREMADE, Universit\'e Paris-Dauphine, Place du Marechal De Lattre De Tassigny, 75775 Paris 16, FRANCE, \url{{peyre,carlier}@ceremade.dauphine.fr} }
+\footnotetext[3]{Kyoto University, 36-1 Yoshida-Honmachi, Sakyo-ku, Kyoto 606-8501 JAPAN, \url{mcuturi@i.kyoto-u.ac.jp}}
+
+
+
+
+\input{sections/sec-abstract}
+\input{sections/sec-intro}
+\input{sections/sec-dikstra-algo}
+\input{sections/sec-entropic}
+\input{sections/sec-barycenters}
+\input{sections/sec-radon}
+\input{sections/sec-multimarginal}
+% \input{sections/sec-martingale}
+\input{sections/sec-unbalanced-ot}
+\input{sections/sec-conclusion}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{siam}  % plain alpha
+\bibliography{refs}	
+
+
+\end{document}
+

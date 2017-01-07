@@ -1,0 +1,203 @@
+% !TEX root = ../KL-Projections.tex
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Partial Radon Inversion with OT Fidelity}
+\label{sec-tomography}
+
+The partial Radon transform (i.e. the computation of integrals of the data along parallel rays in a small limited set of directions) is a mathematical model for several scanning medical acquisition devices. This is an ill-posed linear operator, and inverting it while preventing noise and artifacts to blowup is of utmost importance for the targeted imaging applications. It is out of the scope of this paper to review the overwhelming literature on the topic of Radon inversion, and we refer to the book~\cite{HermanTomography} for an overview of classical approaches, and~\cite{Klann11} and the references therein for examples of state-of-the art methods. 
+
+The goal of this section is not to present a state of the art inversion scheme, but rather to show how the method recently introduced by~\cite{AbrahamRadon} can be solved using a simple iterative Bregman projection algorithm. We describe here the method in a fully discretized setting, where the Radon transform is implemented using a nearest neighbor interpolation. 
+
+We consider a square discretization grid of $N = N_0 \times N_0$ pixels, indexed with 
+\eq{
+	s = (s_1,s_2) \in \Om_N \eqdef \om_{N_0} \times \om_{N_0}
+	\qwhereq
+	\om_{N_0} \eqdef \{1,\ldots,N_0\}^2.
+}
+
+Given an angle $\th$, we consider the following discrete lines in $\Om_N$, $\foralls (s_1,s_2) \in \Om_N$, 
+\eq{
+	\ell_{s_1,s_2}^\th \eqdef 
+	\choice{
+		(s_2, s_1 + (s_2-1) \tan(\theta)  \text{ mod } N_0), 
+			\;\text{if}\; 
+			\text{mod}(\th,\pi) \in [0,\pi/4] \cup [3\pi/4,\pi] \\
+		(s_1 + (s_2-1) \tan(\theta)  \text{ mod } N_0, s_2), 
+			\;\text{if}\; 
+			\text{mod}(\th,\pi) \in [\pi/4,3\pi/4] \\	
+	}
+}
+where the mod $N_0$ is a modulo $N_0$ that maps the indices in the admissible range $\Om_N$, hereby effectively implementing a convenient cyclic boundary condition. 
+
+The discrete Radon integration $R_{\th}(f) \in \RR^{N_0}$ for such an angle $\th$ of an image $f \in \RR^N \sim \RR^{N_0 \times N_0}$ computes
+\eq{
+	\foralls s_1 \in \om_{N_0}, \quad
+	R_\th(f)_{s_1} \eqdef \sum_{s_2=1}^{N_0} f_{\ell_{s_1,s_2}} \in \RR.
+}
+Its adjoint $R_{\th}^*$, the back-propagation operator along direction $\th$, reads, for $r \in \RR^{N_0}$, 
+\eq{
+	f = R_{\th}^*(r)  \qwhereq
+	\foralls s \in \Om_N, \quad
+	f_{\ell_{s_1,s_2}} = r_{s_1}.
+}
+
+We consider the linear inverse problem of reconstructing an approximation of an unknown image $f_0 \in \RR^N$ from (possibly noisy) partial Radon measurements 
+\eql{\label{eq-radon-fwd}
+	r = (\km{r})_{k=1}^K
+	\qwhereq
+	\km{r} = R_{\th_k}(f_0) + \km{w}, 
+}
+where $(\th_k)_{k=1}^K$ is a set of angles, and $\km{w}$ is the noise perturbing the observation. We denote $R(f) = (R_{\th_k}(f))_{k=1}^K$ so that $R : \RR^N \mapsto \RR^{N_0 \times K}$ is a linear operator, and $R^*$ is its adjoint.
+
+The simplest way to perform a reconstruction is to solve for the least squares  estimate 
+\eql{\label{eq-l2-reconstr-radon}
+	R^+(r) = R^* (RR^*)^{-1} r \eqdef \uargmin{f} \norm{f}
+		\qstq \foralls k,  \quad R_{\th_k}(f) = \km{r}. %  \sum_{k=1}^K \norm{ R_{\th_k}(f) - \km{r} }^2.
+}
+This linear inverse does a poor job in the case of a small number $K$ of projections, since it exhibits reconstruction artifacts, as shown on Figure~\ref{fig-radon}.
+
+In order to obtain a better reconstruction, and following the idea introduced in~\cite{AbrahamRadon}, we suppose that one has access to a template $g_0 \in \RR^N$ which is intended to be some approximation of $f_0$, possibly with some translation and small deformations. To leverage the strong robustness of the OT distance with respect to translation and small deformations, the reconstruction is obtained by using a sum of Wasserstein distances to the observation and to the template
+\eql{\label{eq-radon-recons-initi}
+	\umin{f \in \Si_N} \la_1 W_{2,\ga}( f,g_0 ) + \la_2\sum_{k=1}^Q W_{1,\ga}( R_{\th_k}(f),\km{r} ),
+}
+where $0 < \la_1 \leq 1$ is a weight that accounts for the degree of confidence in the template $g_0$, and $\la_2=1-\la_1$. Note that in this setting, the total mass of $f$ is equal to the one of $g_0$, and that this quantity should be close to the total mass of $f_0$ for the method to be successful. A possible workaround would be to use a partial optimal transport distance, as defined in Section~\ref{sec-partial-ot}. 
+
+
+Here, $W_{2,\ga}$ indicates the entropic Wasserstein distance~\eqref{eq-regul-ot-kl} on the 2-D grid $\Om_N$ where we defined the cost matrix $C=C^2$ as
+\eq{
+	\foralls (s, t) \in (\Om_N)^2, \quad
+		C_{s,t}^2 \eqdef (s_1-t_1)^2 + (s_2-t_2)^2
+}
+and $W_{1,\ga}$ indicate the entropic Wasserstein distance~\eqref{eq-regul-ot-kl} on a 1-D periodic grid for the cost $C=C^1$
+\eq{
+	\foralls (i,j) \in (\om_{N_0})^2, \quad
+		C_{i,j}^1 \eqdef \umin{k \in \ZZ} (i-j+k N_0)^2.
+}
+
+Similarly to the barycenter problem~\eqref{eq-bary-variational-kl}, we compute $f$ solving~\eqref{eq-radon-recons-initi} as $f = \pi \ones_N$ where $\pi$ solves 
+\eql{\label{eq-radon-variational-kl}
+	\min
+	\enscond{
+		\la_1 \KLdiv{\pi}{\xi} +  \la_2\sum_{k=1}^K \KLdiv{\km{\pi}}{\km{\xi}}
+	}{
+		\foralls k, \; (\pi,\km{\pi}) \in \Cc_k, \cap \tilde\Cc_k
+	}
+}
+\eq{
+	\qwhereq
+	\xi = e^{ -\frac{ C^2 }{\ga} }
+	\qandq
+	\foralls k, \quad 
+	\km{\xi} = e^{ -\frac{C^1}{\ga} }	
+}
+(here the $\exp$ should be understood component-wise) and where we introduced
+\begin{align*}
+	\foralls k, \; \Cc_k &= 
+		\enscond{ (\pi,\km{\pi}) \in \Si_{N} \times \Si_{N_0} }{ 
+			\transp{\pi} \ones_N = g_0 \qandq \pi_k^{T} \ones_{N_0} = \km{r} } \\
+	%%%%
+	\foralls k, \; \tilde\Cc_k &= 
+		\enscond{ (\pi,\km{\pi}) \in \Si_{N} \times \Si_{N_0} }{
+			R_{\th_k}(\pi \ones_{N}) = \km{\pi} \ones_{N_0}
+	}.
+\end{align*}
+Problem~\eqref{eq-radon-variational-kl} thus corresponds to a (weighted) KL projection on the intersection of $2K$ constraints. 
+
+
+Note that when $\la_1=0$, this KL formulation becomes degenerate, since recovering $f = \pi \ones_N$ requires to compute some optimal $\pi$. We thus impose $\la_1>0$.
+
+Computing the projection on each $\Cc_k$ is achieved as detailed in Proposition~\ref{prop-projkl-row-cols}. The following proposition shows how to project on $\tilde\Cc_k$. %  which is a simple extension of Proposition~\ref{prop-klproj-bary}, 
+
+\begin{prop}
+	For any $k = 1,\ldots,K$, the projection 
+	$\bpi = (\pi,\km{\pi}) = \KLprojL_{\tilde\Cc_k}(\bar\bpi)$ of $\bar\bpi = (\bar\pi,\km{\bar\pi})$
+	for the KL metric 
+	\eq{
+		\KLdivL{\bpi}{\bar\bpi} \eqdef \la_1 \KLdiv{\pi}{\bar\pi} + \la_2 \KLdiv{\km{\pi}}{\km{\bar\pi}}
+	}
+	satisfies
+	\eq{
+		\pi = \diag\pa{ R_{\th_k}^* \pa{ \frac{\de_k}{\al_k} } }  \bar\pi
+		\qandq
+		\km{\pi} = \diag\pa{ \frac{\de_k}{\be_k} } \km{\bar\pi}
+	}
+	where we defined
+	\eq{
+		\km{\al} \eqdef R_{\th_k}(\bar\pi \ones_{N}), \quad
+		\km{\be} \eqdef \km{\bar\pi} \ones_{N_0}, 
+		\qandq
+		\km{\de} = \al_k^{\la_1} \odot \be_k^{\la_2}
+	}
+	where the exponentiations are component-wise.
+\end{prop}
+
+\begin{proof}
+	We introduce a Lagrange multiplier $u$ for the constraint, so that the first order condition of the projection on $\tilde\Cc_k$ reads
+	\eq{
+		\la_1 \log\pa{\frac{\pi}{\bar\pi}} + R_{\th_k}^*(u) \ones_N^T = 0
+		\qandq
+		\la_2 \log\pa{\frac{\pi_k}{\bar\pi_k}} - u \ones_{N_0}^T = 0.
+	}
+	Introducing $a=e^{u}$, this reads
+	\eql{\label{eq-proof-radon-interm}
+		\pi = \diag( R_{\th_k}^*(a^{-1/\la_1}) ) \bar\pi
+		\qandq
+		\pi_k = \diag( a^{1/\la_2} ) \bar\pi_k.
+	}
+	The constraint $\tilde\Cc_k$ implies\footnote{There was typos in the published version of the paper for the following formula.}
+	\begin{align*}
+		R_{\th_k}(\pi \ones_N) &= R_{\th_k} \pa{
+			R_{\th_k}^*( a^{-1/\la_1} ) \odot (\bar \pi \ones_N) 
+		}
+		= a^{-1/\la_1} \odot R_{\th_k}(\bar\pi \ones_N) \\
+		&= \pi_{k} \ones_{N_0} = a^{1/\la_2} \odot (\bar\pi_K \ones_{N_0})
+	\end{align*}
+	and hence
+	\eq{
+		a = \pa{\frac{R_{\th_k}^*(\bar\pi \ones_N)}{\bar\pi_K \ones_{N_0}}}^{\la_1\la_2}.
+	}
+	Plugging this into~\eqref{eq-proof-radon-interm} leads to the desired expressions for $\pi$ and $\pi_k$.
+\end{proof}
+
+Figure~\ref{fig-radon} shows an example of application of the method for an image $f_0$ which is discretized on a grid of $N=80 \times 80$ points, using $\ga=2/N$ and $K=12$ Radon directions. There is no additional noise in the measurements, i.e. $\km{w}=0$ in~\eqref{eq-radon-fwd}. The template $g_0$ is a binary disk. These results show how using a large $\la_1$ recovers a result that is close to $g_0$, while using a smaller $\la$ introduces the geometric features of $f_0$ but also reconstruction artifacts. Note that the linear reconstruction $R^+(r)$ contains reconstruction artifacts. 
+
+
+\newcommand{\myfigRad}[1]{\includegraphics[width=.24\linewidth]{radon/#1}}
+\newcommand{\myfigRadMarg}[1]{\includegraphics[width=.48\linewidth]{radon/marginals/marginal-#1}}
+
+\begin{figure}[h!]
+	\centering
+	\begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{}}
+		\myfigRad{original} &
+		\myfigRad{template} &
+		\myfigRad{recovered-Q12-L2} \\
+		$f_0$ & $g_0$ & $R^+(r)$ \\[2mm]
+	\end{tabular}
+	\begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{}}
+		\myfigRad{recovered-Q12-W2-lambda01} &
+		\myfigRad{recovered-Q12-W2-lambda1} &
+		\myfigRad{recovered-Q12-W2-lambda10} &
+		\myfigRad{recovered-Q12-W2-lambda100} \\
+		$\la_1=0.1$ & $\la_1=0.5$ & $\la_1=0.9$ & $\la_1=0.99$
+	\end{tabular}
+	\begin{tabular}{@{}c@{\hspace{1mm}}c@{}}
+		\myfigRadMarg{1} &
+		\myfigRadMarg{3} \\
+		$k=1$ & $k=3$ \\
+		\myfigRadMarg{5} &
+		\myfigRadMarg{7} \\
+		$k=5$ & $k=7$ 
+	\end{tabular}	
+	\caption{% 
+		Example of reconstructions from partial Radon measurements. 
+		The two bottom rows show the input transforms $r_k=R_{\th_k}(f_0)$ (dashed curves)
+		and the recovered Radon transforms $R_{\th_k}(f_0)$ where $f$ solved~\ref{eq-radon-recons-initi} (plain curves),
+		for a few values of $k$. 
+	}
+   \label{fig-radon}
+\end{figure}
+
+
+
+

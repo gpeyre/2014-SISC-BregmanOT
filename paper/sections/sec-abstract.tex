@@ -1,0 +1,7 @@
+% !TEX root = ../KL-Projections.tex
+
+\begin{abstract}
+	This article details a general numerical framework to approximate solutions to linear programs related to optimal transport. 
+	The general idea is to introduce an entropic regularization of the initial linear program. This regularized problem corresponds to a  Kullback-Leibler Bregman divergence projection of a vector (representing some initial joint distribution) on the polytope of constraints. We show that for many problems related to optimal transport, the set of linear constraints can be split in an intersection of a few simple constraints, for which the projections can be computed in closed form. This allows us to make use of iterative Bregman projections (when there are only equality constraints) or more generally Bregman-Dykstra iterations (when  inequality constraints are involved). We illustrate the usefulness of this approach to several variational problems related to optimal transport: barycenters for the optimal transport metric, tomographic reconstruction, multi-marginal optimal transport and in particular its application to Brenier's relaxed solutions of incompressible Euler equations, partial un-balanced optimal transport and optimal transport with capacity constraints. 
+	%\todo{remove martingale and add euler} 
+\end{abstract}

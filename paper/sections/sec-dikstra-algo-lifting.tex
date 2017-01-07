@@ -1,0 +1,56 @@
+%% REMOVED %%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lifting over Product Spaces}
+
+
+The algorithms defined through iterations~\eqref{eq-iter-dystra} and~\eqref{eq-iter-bregmanproj} are not symmetric with respect to the indexing of the constraints $\{\Cc_n\}$, i.e. if we re-order the constraints, the trajectories $\{\pi_n\}_n$ differ.
+
+A way to obtain symmetric iterations can be achieved by lifting the problem over the product space $\bpi = (\pi^\ell)_{\ell=1}^L \in (\Si_N)^L$ and re-cast~\eqref{proj-inter} as the following projection
+\eql{\label{eq-projinter-lifted}
+	\min \enscond{
+		\KLdivL{\bpi}{\bar\bpi} = \sum_{\ell=1}^L \la_\ell \KLdiv{\pi^\ell}{\bar\pi^\ell}
+	}{
+		\bpi \in \bCc_1 \cap \bCc_2
+	}
+}
+where we introduced a a set of weights $\la \in \RR_+^L$, normalized so that $\sum_\ell \la_\ell=1$.
+
+It is easy to check that similarly to the KL divergence, $\KL_\la$ is a also a $f$-divergence as defined in~\cite{}.
+
+The lifted constraint sets are defined as
+\begin{align*}
+	\bCc_1 &= \enscond{ 
+		\bpi = (\pi^\ell)_{\ell=1}^L \in (\Si_N)^L
+	}{
+		\forall \ell, \ell', \; \pi^\ell = \pi^{\ell'}
+	} \\
+	\bCc_2 &= \enscond{ 
+		\bpi = (\pi^\ell)_{\ell=1}^L \in (\Si_N)^L
+	}{
+		\forall \ell, \; \pi^\ell \in \Cc_\ell
+	} .
+\end{align*}
+
+The projection on $\bCc_2$ is simple to compute since the constraint is separable
+\eq{
+	\KLprojL_{\bCc_2}(\bar\bpi)
+	= \pa{ 
+		\KLproj_{\Cc_\ell}(\bar\pi_\ell)
+	}_{\ell=1}^L
+}
+The projection on the diagonal set $\bCc_1$ is computed as described in the following proposition. 
+
+\begin{prop}
+	The projection $(\pi^\ell)_{\ell=1}^L = \KLprojL_{\Cc_1}(\bar\bpi)$ satisfies 
+	\eq{
+		\foralls \ell=1,\ldots,L, \quad
+			\pi^\ell = \prod_{r=1}^L (\pi^r)^{\la_r}
+	}
+	where product and exponentiation should be understood component wise. 
+\end{prop}
+\begin{proof}
+	TODO.
+\end{proof}
+
+It is then possible to use iterations~\eqref{eq-iter-bregmanproj} (when the sets $\Cc_\ell$ are affine) or \eqref{eq-iter-dystra} (for the general case) to solve the projection~\eqref{eq-projinter-lifted}, which defines iterations that differs from the one obtained when applying these algorithm directly to~\eqref{proj-inter}.

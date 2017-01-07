@@ -1,0 +1,111 @@
+% !TEX root = ../KL-Projections.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Entropic Regularization of Transport-like Problems}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Entropic Optimal Transport Regularization}
+\label{sec-entropic-regul}
+
+To illustrate the class of methods developed in this paper, we first study the optimal transport problem with an entropic regularization. We recast that penalized problem in the language of Kullback-Leibler projections. This allows us to recover well known results, but in a framework that is easily generalizable.
+
+Following~\citep{CuturiSinkhorn} (as well as other references described in Section~\ref{sec-pw}) we consider the (discrete) regularized optimal transport distance
+\eql{\label{eq-regul-transport}
+	W_\ga(p,q) \eqdef \umin{\pi \in \Pi(p,q)} \dotp{C}{\pi} - \ga E(\pi).
+}
+The intuition underlying this regularization is that it enforces the optimal coupling $\pi_\ga^\star$ solution of~\eqref{eq-regul-transport} to be smoother as $\ga$ increases. This regularization also yields favorable computational properties since problem~\eqref{eq-regul-transport} is $\ga$-strongly convex. Its unique solution $\pi_\ga^\star$ can be obtained through elementary operations (matrix products, elementwise operations on vectors) as detailed in Proposition~\ref{prop-projkl-row-cols} below. If the optimal solution $\pi^\star$ of the (original, non-regularized, i.e. $\ga=0$) optimal transport problem is unique, then the optimal solution $\pi_\ga^\star$ of~\eqref{eq-regul-transport} converges to $\pi^\star$ as $\ga \rightarrow 0$. When other optimal solutions exist, $\pi_\ga^\star$ converges as $\ga \rightarrow 0$ to that with the largest entropy among those, again denoted $\pi^\star$. The convergence of minimizers of the regularized problem as $\ga\to 0$ is actually exponential
+\eq{
+	\norm{\pi_\ga^\star-\pi^\star}_{\RR^{N\times N}} \le M e^{-\la/\ga}
+} 
+where $\la$ and $M$ depend on $C$, $p$, $q$ and $N$   as  shown by Cominetti and San~Martin~\cite{CominettiAsympt}. 
+
+Problem~\eqref{eq-regul-transport} can be re-written as a projection 
+\eql{\label{eq-regul-ot-kl}
+	\umin{\pi \in \Pi(p,q)} \KLdiv{\pi}{\xi}
+	\qwhereq
+	\xi = e^{ -\frac{C}{\ga} }
+}
+of $\xi$ according to the Kullback-Leibler divergence (here the exponential is computed component-wise). 
+
+Problem~\eqref{eq-regul-ot-kl} can in turn be formulated as~\eqref{proj-inter} with $L=2$ affine subsets of $\RR_+^{N \times N}$
+\eq{
+	\Cc_1 \eqdef \enscond{\pi \in \RR_+^{N \times N}}{ \pi \ones = p }
+	\qandq
+	\Cc_2 \eqdef \enscond{\pi \in \RR_+^{N \times N}}{ \transp{\pi} \ones = q }.
+}
+The application of Bregman iterative projection (detailed in Section~\ref{sec-iterative-bregman}) to this splitting corresponds to the so-called IPFP/Sinkhorn algorithm (see Section~\ref{sec-pw} for bibliographical details).
+
+The following well-known proposition details how to compute the relevant projections.
+
+\begin{prop}\label{prop-projkl-row-cols}
+	One has, for $\bar\pi \in (\RR_+)^{N \times N}$, 
+	\eql{\label{eq-proj-row-cols}
+		\KLproj_{\Cc_1}(\bar\pi) = \diag\pa{ \frac{p}{ \bar\pi\ones } } \bar\pi
+		\qandq
+		\KLproj_{\Cc_2}(\bar\pi) =  \bar\pi \diag\pa{ \frac{q}{ \transp{\bar\pi} \ones } }
+	}
+\end{prop}
+
+In plain words, the two projections in equation~\eqref{eq-proj-row-cols} normalize (with a multiplicative update) either the rows or columns of $\bar\pi$ so that they have the desired row-marginal $p$ or column-marginal $q$.
+
+\begin{rem}[Fast implementation]\label{rem-fast-sink}
+An important feature of iterations~\eqref{eq-iter-bregmanproj}, when combined with projections~\eqref{eq-proj-row-cols} is that the iterates $\iter{\pi}$ satisfy
+\eq{
+	\iter{\pi} = \diag(\iter{u})\xi\diag(\iter{v})
+} 
+where the vectors $(\iter{u},\iter{v}) \in \RR^N \times \RR^N$ satisfy $v^{(0)}=\ones$ and obey the recursion formula
+\eq{
+	\iter{u} = \frac{p}{\xi \iter{v}}
+	\qandq
+	v^{(n+1)} = \frac{q}{ \transp{\xi} \iter{u}}.
+}
+This allows to implement this algorithm by only performing matrix-vector multiplications using a fixed matrix $\xi$, possibly in parallel if several OT are to be computed for several marginals sharing the same ground cost $C$ as shown in~\cite{CuturiSinkhorn}.
+\end{rem}
+
+
+\newcommand{\myfig}[2]{\imgbox{\includegraphics[width=.155\linewidth]{transport/#1/#1-#2}}}
+
+\begin{figure}[h!]
+	\centering
+	\begin{tabular}{c}
+	\includegraphics[width=.5\linewidth]{transport/regularization/mixtures}\\
+	Marginals ${\color{blue} p}$ and ${\color{red} q}$\\[2mm]
+	\end{tabular}
+	\begin{tabular}{@{}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{\hspace{1mm}}c@{}}
+		%%%%%%
+		\myfig{iteration}{1}&
+		\myfig{iteration}{4}&
+		\myfig{iteration}{10}&
+		\myfig{iteration}{40}&
+		\myfig{iteration}{100}&
+		\myfig{iteration}{1000} \\
+		$\ell=1$ & $\ell=4$ & $\ell=10$ & $\ell=40$ & $\ell=100$ & $\ell=1000$ \\[2mm]
+		%%%%%%
+		\myfig{regularization}{4}&
+		\myfig{regularization}{6}&
+		\myfig{regularization}{10}&
+		\myfig{regularization}{20}&
+		\myfig{regularization}{40}&
+		\myfig{regularization}{60} \\
+		$\ga=3/N$ & $\ga=6/N$ & $\ga=10/N$ & $\ga=20/N$ & $\ga=40/N$ & $\ga=60/N$
+	\end{tabular}
+	\caption{% 
+		\textit{Top:} the input densities $p$ (blue curve) and $q$ (red curve).
+		%
+		\textit{Center:} evolution of the couplings $\pi^{(\ell)}$ at iteration $\ell$ of the Sinkhorn algorithm. 
+		%
+		\textit{Bottom:} solution $\pi=\pi_\ga^\star$ of~\eqref{eq-regul-ot-kl} for several values of $\ga$.
+	}
+   \label{fig-ot-sinkhorn}
+\end{figure}
+
+Figure~\ref{fig-ot-sinkhorn} displays examples of transport maps $\pi=\pi_\ga^\star$ solving~\eqref{eq-regul-ot-kl}, for two 1-D marginals $(p,q) \in \RR^{N} \times \RR^N$ discretizing continuous densities on a uniform grid $(x_i)_{i=1}^N$ of $[0,1]$, and with a ground cost $C_{i,j} = \norm{x_i-x_j}^2$. 
+The computation is performed with $N = 256$.
+This figure shows how $\pi_\ga^\star$ converges towards a solution of the original un-regularized transport as $\ga \rightarrow 0$. It also shows how the iterates of the algorithm $\iter{\pi}$ progressively shift mass away from the diagonal during the iterations. 
+
+
+
+
